@@ -36,7 +36,13 @@ class YOLO{
     const char* output_names[1] = {"output0"};
 
     Ort::Env env;
-    Ort::Session session_{env,"../best.onnx",Ort::SessionOptions{nullptr}};
+
+    // use CUDA ,but can't init in CLASSES
+    // Ort::SessionOptions session_options{nullptr};
+    // OrtSessionOptionsAppendExecutionProvider_CUDA(session_options,0);
+
+
+    Ort::Session session_{env,"../best.onnx",session_options};
     Ort::Value input_tensor_{nullptr};
     std::vector<int64_t> input_shape_{BATCH_SIZE, CHANNELS, HEIGHT, WIDTH};
     Ort::Value output_tensor_{nullptr};
